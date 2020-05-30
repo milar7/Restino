@@ -8,12 +8,10 @@ import java.util.regex.Pattern
 
 fun String.isInteger() = this?.toIntOrNull()?.let { true } ?: false
 
-fun Fragment.toast(msg:String){
-    Toast.makeText(this.context,msg,Toast.LENGTH_SHORT).show()
-}
 
 
 
+//TODO refactor to crossfade animation
 fun ProgressBar.hide(){
     this.visibility= View.GONE
 }
