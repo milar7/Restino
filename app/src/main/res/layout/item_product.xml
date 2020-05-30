@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="250dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:layout_margin="16dp"
+    android:padding="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/img_product"
+            android:layout_width="120dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="16dp"
+            android:scaleType="fitXY"
+            tools:src="@drawable/product1" />
+
+        <TextView
+            android:id="@+id/title_product"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:text="ریف محلول ضدعفونی کننده سطوح ۴ لیتر" />
+
+        <TextView
+            android:id="@+id/img_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="8dp"
+            android:gravity="center"
+            android:text="۲۵۰۰۰۰ ریال" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_product"
+            style="@style/Widget.Shrine.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_margin="16dp"
+            android:layout_marginTop="8dp"
+            android:text="مشاهده و خرید" />
+
+
+    </LinearLayout>
+
+
+</com.google.android.material.card.MaterialCardView>
