@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.restino.R
@@ -56,7 +57,10 @@ class HomeFragment : Fragment(), ProductRvAdapter.Interaction {
     }
     private fun initRecyclerView() {
         binding.recyclerViewHome.apply {
-            layoutManager = LinearLayoutManager(activity)
+
+            //TODO enter animation
+            //TODO place holder loading
+            layoutManager = GridLayoutManager(context,2)
             productRvAdapter = ProductRvAdapter(this@HomeFragment)
             adapter = productRvAdapter
         }

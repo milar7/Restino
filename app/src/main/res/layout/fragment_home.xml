@@ -51,10 +51,31 @@
 
                         </com.google.android.material.tabs.TabLayout>
 
+                        <View
+                            android:layout_width="110dp"
+                            android:layout_height="3dp"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@color/buttonGreen" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:textStyle="bold"
+                            android:layout_margin="4dp"
+                            android:textColor="@android:color/black"
+                            android:text="جدیدترین محصولات" />
+
+                        <View
+                            android:layout_width="110dp"
+                            android:layout_height="3dp"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@color/buttonGreen" />
 
                     </LinearLayout>
 
                     <RelativeLayout
+                        android:layout_marginTop="8dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal">
@@ -64,6 +85,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
+                            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                            app:spanCount="2"
                             tools:listitem="@layout/item_product" />
 
                         <ProgressBar
@@ -71,6 +94,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
+                            android:visibility="gone"
                             android:layout_margin="4dp" />
 
                     </RelativeLayout>

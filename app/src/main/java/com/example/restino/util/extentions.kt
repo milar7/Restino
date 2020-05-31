@@ -21,6 +21,8 @@ fun ProgressBar.show(){
 
 
 
+
+
 fun String.isValidPassword() : Boolean {
     this?.let {
         val passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d@\$!%*#?&]{8,}\$"

@@ -1,24 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="250dp"
-    android:layout_height="wrap_content"
+    android:layout_width="180dp"
+    android:layout_height="340dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="center_horizontal"
-    android:layout_margin="16dp"
-    android:padding="8dp">
+    android:layout_margin="6dp"
+    app:cardCornerRadius="12dp"
+    android:padding="2dp">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/img_product"
-            android:layout_width="120dp"
-            android:layout_height="150dp"
+            android:layout_width="160dp"
+            android:layout_height="180dp"
             android:layout_gravity="center_horizontal"
             android:layout_margin="16dp"
             android:scaleType="fitXY"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/product1" />
 
         <TextView
@@ -27,16 +31,26 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
-            android:text="ریف محلول ضدعفونی کننده سطوح ۴ لیتر" />
+            android:maxLines="3"
+            android:layout_margin="4dp"
+            android:textColor="@android:color/black"
+            android:text="ریف محلول ضدعفونی کننده سطو کننده سطو کننده سطو کننده سطو کننده سطوح ۴ لیتر"
+            app:layout_constraintEnd_toEndOf="@+id/img_product"
+            app:layout_constraintStart_toStartOf="@+id/img_product"
+            app:layout_constraintTop_toBottomOf="@+id/img_product" />
 
         <TextView
             android:id="@+id/img_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="8dp"
+            android:layout_margin="4dp"
             android:gravity="center"
-            android:text="۲۵۰۰۰۰ ریال" />
+            android:text="۲۵۰۰۰۰ ریال"
+            android:textColor="@android:color/black"
+            app:layout_constraintEnd_toEndOf="@+id/title_product"
+            app:layout_constraintStart_toStartOf="@+id/title_product"
+            app:layout_constraintTop_toBottomOf="@+id/title_product" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_product"
@@ -44,12 +58,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|bottom"
-            android:layout_margin="16dp"
-            android:layout_marginTop="8dp"
-            android:text="مشاهده و خرید" />
+            android:layout_margin="8dp"
+            android:text="مشاهده و خرید"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </com.google.android.material.card.MaterialCardView>
