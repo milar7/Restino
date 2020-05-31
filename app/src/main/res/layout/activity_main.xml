@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".ui.MainActivity">
 
+
+
     <com.google.android.material.appbar.MaterialToolbar
         android:layoutDirection="rtl"
         android:id="@+id/my_toolbar"

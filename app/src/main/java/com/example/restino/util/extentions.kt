@@ -10,6 +10,17 @@ fun String.isInteger() = this?.toIntOrNull()?.let { true } ?: false
 
 
 
+fun View.fadeShow(){
+    this.apply {
+        alpha=0f
+        visibility=View.VISIBLE
+    animate().alpha(1f)
+        .setDuration(300)
+    }
+
+
+}
+
 
 //TODO refactor to crossfade animation
 fun ProgressBar.hide(){

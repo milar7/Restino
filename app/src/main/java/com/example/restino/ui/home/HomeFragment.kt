@@ -20,10 +20,7 @@ import com.example.restino.databinding.FragmentHomeBinding
 import com.example.restino.ui.home.list.ProductRvAdapter
 import com.example.restino.ui.home.slideshow.Slide
 import com.example.restino.ui.home.slideshow.SlideShowPagerAdapter
-import com.example.restino.util.InjectorUtil
-import com.example.restino.util.NumberEnToFarsi
-import com.example.restino.util.hide
-import com.example.restino.util.show
+import com.example.restino.util.*
 import java.util.*
 private const val TAG = "HomeFragment"
 
@@ -44,7 +41,7 @@ class HomeFragment : Fragment(), ProductRvAdapter.Interaction {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         binding.lifecycleOwner = this
-        (activity as AppCompatActivity).supportActionBar?.show()
+        (activity as AppCompatActivity).supportActionBar?.hide()
         val restinoRepository = RestinoRepository()
         val viewModelProviderFactory = InjectorUtil.HomeViewModelProviderFactory(restinoRepository)
         viewModel = ViewModelProvider(this, viewModelProviderFactory).get(HomeViewModel::class.java)
@@ -85,6 +82,8 @@ class HomeFragment : Fragment(), ProductRvAdapter.Interaction {
             when (response) {
                 is Result.Success -> {
                     binding.pbHome.hide()
+                    binding.swipeView.fadeShow()
+                    (activity as AppCompatActivity).supportActionBar?.show()
                     response.data?.let {
                         productRvAdapter.submitList(it)
 
