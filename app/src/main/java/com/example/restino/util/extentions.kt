@@ -1,6 +1,9 @@
 package com.example.restino.util
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.view.View
+import android.view.animation.Animation
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -17,9 +20,18 @@ fun View.fadeShow(){
     animate().alpha(1f)
         .setDuration(300)
     }
-
-
 }
+fun View.fadeHide(){
+    this.animate()
+        .alpha(0f)
+        .setDuration(300)
+        .setListener(object: AnimatorListenerAdapter(){
+            override fun onAnimationEnd(animation: Animator?) {
+                this@fadeHide.visibility=View.GONE
+            }
+        })
+}
+
 
 
 //TODO refactor to crossfade animation

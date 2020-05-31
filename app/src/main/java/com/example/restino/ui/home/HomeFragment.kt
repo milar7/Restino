@@ -39,6 +39,7 @@ class HomeFragment : Fragment(), ProductRvAdapter.Interaction {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        CurrentFragment.curr=Constance.HOME
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         binding.lifecycleOwner = this
         (activity as AppCompatActivity).supportActionBar?.hide()
@@ -83,6 +84,7 @@ class HomeFragment : Fragment(), ProductRvAdapter.Interaction {
                 is Result.Success -> {
                     binding.pbHome.hide()
                     binding.swipeView.fadeShow()
+                    binding.imgLogo.fadeHide()
                     (activity as AppCompatActivity).supportActionBar?.show()
                     response.data?.let {
                         productRvAdapter.submitList(it)

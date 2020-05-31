@@ -17,6 +17,7 @@ import com.example.restino.data.model.ProductInfo
 import com.example.restino.data.remote.responceAllProduct.ProductsItem
 import com.example.restino.databinding.FragmentDetailBinding
 import com.example.restino.util.Constance
+import com.example.restino.util.CurrentFragment
 import com.example.restino.util.GlideInstence
 import com.example.restino.util.InjectorUtil
 
@@ -35,6 +36,7 @@ class DetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        CurrentFragment.curr=Constance.Detail
 
         (activity as AppCompatActivity).supportActionBar?.show()
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_detail, container, false)
