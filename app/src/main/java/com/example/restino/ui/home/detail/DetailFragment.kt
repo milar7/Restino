@@ -1,28 +1,34 @@
 package com.example.restino.ui.home.detail
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.restino.R
 import com.example.restino.data.model.ProductInfo
+import com.example.restino.data.remote.responceAllProduct.ProductsItem
 import com.example.restino.databinding.FragmentDetailBinding
+import com.example.restino.util.Constance
+import com.example.restino.util.GlideInstence
+import com.example.restino.util.InjectorUtil
 
 class DetailFragment : Fragment() {
-
 
 
     private lateinit var viewModel: DetailViewModel
     private lateinit var binding: FragmentDetailBinding
     private lateinit var proInfoListAdapter: ProInfoListAdapter
     private var proCount: Int = 0
-
+    private lateinit var product: ProductsItem
+    val args: DetailFragmentArgs by navArgs()
 
     private var proInfos = mutableListOf<ProductInfo>()
     override fun onCreateView(
@@ -33,24 +39,35 @@ class DetailFragment : Fragment() {
         (activity as AppCompatActivity).supportActionBar?.show()
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_detail, container, false)
         binding.lifecycleOwner = this
+        product = args.product
+        binding.fbBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
 
 
-        return inflater.inflate(R.layout.fragment_detail, container, false)
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val viewModelProviderFactory = InjectorUtil.DetailViewModelProviderFactory(product)
+        viewModel =
+            ViewModelProvider(this, viewModelProviderFactory).get(DetailViewModel::class.java)
+        binding.viewModel = viewModel
+
+        binding.imgProduct.apply {
+            Glide.with(this).load("${Constance.BASE_URL}${product.image}")
+                .apply(GlideInstence.options).into(binding.imgProduct)
+        }
 
         if (proInfos.isEmpty()) {
-
-            proInfos.add(ProductInfo(title = "حجم", value = "33 سی سی"))
-            proInfos.add(ProductInfo(title = "عصاره", value = "دارد"))
-            proInfos.add(ProductInfo(title = "حاوی نرم کننده", value = "بله"))
-            proInfos.add(ProductInfo(title = "حجم", value = "33 سی سی"))
-            proInfos.add(ProductInfo(title = "حجم", value = "33 سی سی"))
-            proInfos.add(ProductInfo(title = "حجم", value = "33 سی سی"))
+            args.product.properties.forEach {
+                proInfos.add(ProductInfo(title = it.name, value = it.value))
+            }
         }
+
 
         setUpCount()
         setupRecyclerView()
@@ -58,14 +75,16 @@ class DetailFragment : Fragment() {
 
     private fun setupRecyclerView() {
         binding.rvInfo.apply {
-            layoutManager= LinearLayoutManager(activity)
-            proInfoListAdapter= ProInfoListAdapter()
-            adapter=proInfoListAdapter
+            layoutManager = LinearLayoutManager(activity)
+            proInfoListAdapter = ProInfoListAdapter()
+            adapter = proInfoListAdapter
 
         }
         proInfoListAdapter.submitList(proInfos)
     }
 
+
+    //TODO should be in view model
     private fun setUpCount() {
         binding.btnPlus.setOnClickListener {
             proCount++

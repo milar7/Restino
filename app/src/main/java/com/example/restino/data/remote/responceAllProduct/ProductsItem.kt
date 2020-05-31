@@ -1,5 +1,9 @@
-package com.example.restinoapp.data.remote.ResponceAllProducts
+package  com.example.restino.data.remote.responceAllProduct
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class ProductsItem(
     val brand: Brand,
     val categories: List<Category>,
@@ -12,4 +16,4 @@ data class ProductsItem(
     val name: String,
     val price: Int,
     val properties: List<Property>
-)
+) : Parcelable

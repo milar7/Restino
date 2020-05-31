@@ -1,6 +1,6 @@
 package com.example.restino.data.remote
 
-import com.example.restinoapp.data.remote.ResponceAllProducts.Products
+import com.example.restino.data.remote.responceAllProduct.Products
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

@@ -1,39 +1,39 @@
 package com.example.restino.ui.home
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.restino.R
+import com.example.restino.data.Result
+import com.example.restino.data.remote.responceAllProduct.ProductsItem
 import com.example.restino.data.repository.RestinoRepository
 import com.example.restino.databinding.FragmentHomeBinding
-import com.example.restino.util.InjectorUtil
-import com.example.restino.data.Result
 import com.example.restino.ui.home.list.ProductRvAdapter
 import com.example.restino.ui.home.slideshow.Slide
 import com.example.restino.ui.home.slideshow.SlideShowPagerAdapter
+import com.example.restino.util.InjectorUtil
+import com.example.restino.util.NumberEnToFarsi
 import com.example.restino.util.hide
 import com.example.restino.util.show
-import com.example.restinoapp.data.remote.ResponceAllProducts.ProductsItem
 import java.util.*
+private const val TAG = "HomeFragment"
 
 class HomeFragment : Fragment(), ProductRvAdapter.Interaction {
 
-
     private lateinit var viewModel: HomeViewModel
-    private lateinit var binding:FragmentHomeBinding
+    private lateinit var binding: FragmentHomeBinding
     private lateinit var slideAdapter: SlideShowPagerAdapter
     private lateinit var productRvAdapter: ProductRvAdapter
+
     companion object {
         val slides = mutableListOf<Slide>()
     }
@@ -42,12 +42,12 @@ class HomeFragment : Fragment(), ProductRvAdapter.Interaction {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding=DataBindingUtil.inflate(inflater,R.layout.fragment_home, container, false)
-        binding.lifecycleOwner=this
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
+        binding.lifecycleOwner = this
         (activity as AppCompatActivity).supportActionBar?.show()
-        val restinoRepository= RestinoRepository()
+        val restinoRepository = RestinoRepository()
         val viewModelProviderFactory = InjectorUtil.HomeViewModelProviderFactory(restinoRepository)
-        viewModel= ViewModelProvider(this,viewModelProviderFactory).get(HomeViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelProviderFactory).get(HomeViewModel::class.java)
 
         subscribeUi()
         setupSlideshow()
@@ -55,46 +55,48 @@ class HomeFragment : Fragment(), ProductRvAdapter.Interaction {
         setupSwipeRefresh()
         return binding.root
     }
+
     private fun initRecyclerView() {
         binding.recyclerViewHome.apply {
 
             //TODO enter animation
             //TODO place holder loading
-            layoutManager = GridLayoutManager(context,2)
+            layoutManager = GridLayoutManager(context, 2)
             productRvAdapter = ProductRvAdapter(this@HomeFragment)
             adapter = productRvAdapter
         }
 
     }
+
     private fun setupSwipeRefresh() {
         binding.swipeView.setSwipeableChildren(binding.recyclerViewHome.id)
 
-        binding.swipeView.setOnRefreshListener(object : SwipeRefreshLayout.OnRefreshListener{
+        binding.swipeView.setOnRefreshListener(object : SwipeRefreshLayout.OnRefreshListener {
             override fun onRefresh() {
                 viewModel.getNewProducts()
-                binding.swipeView.isRefreshing=false
+                binding.swipeView.isRefreshing = false
             }
 
         })
     }
 
     private fun subscribeUi() {
-        viewModel.newProducts.observe(viewLifecycleOwner, androidx.lifecycle.Observer {response->
-            when(response){
-                is Result.Success ->{
+        viewModel.newProducts.observe(viewLifecycleOwner, androidx.lifecycle.Observer { response ->
+            when (response) {
+                is Result.Success -> {
                     binding.pbHome.hide()
                     response.data?.let {
                         productRvAdapter.submitList(it)
 
                     }
                 }
-                is Result.Error ->{
+                is Result.Error -> {
                     binding.pbHome.hide()
                     response.message?.let {
-                        Log.e("HOMEFRAGMENT","An error occured: $it")
+                        Log.e("HOMEFRAGMENT", "An error occured: $it")
                     }
                 }
-                is Result.Loading->
+                is Result.Loading ->
                     binding.pbHome.show()
 
 
@@ -102,6 +104,7 @@ class HomeFragment : Fragment(), ProductRvAdapter.Interaction {
         })
 
     }
+
     private fun setupSlideshow() {
         if (slides.isEmpty()) {
             slides.add(Slide(R.drawable.slide1))
@@ -138,7 +141,10 @@ class HomeFragment : Fragment(), ProductRvAdapter.Interaction {
     }
 
     override fun onItemSelected(position: Int, item: ProductsItem) {
-        Toast.makeText(context, "${item.name}", Toast.LENGTH_SHORT).show()
+        findNavController().navigate(
+            HomeFragmentDirections.actionHomeFragmentToDetailFragment(item)
+        )
+
     }
 
 

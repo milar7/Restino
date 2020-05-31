@@ -24,6 +24,10 @@
             tools:text="حجم"
             android:layout_gravity="center"
             android:textSize="20sp"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:padding="4dp"
+
             />
 
     </com.google.android.material.card.MaterialCardView>
@@ -31,11 +35,13 @@
     <com.google.android.material.card.MaterialCardView
 
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="wrap_content"
+        android:minHeight="55dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         app:cardCornerRadius="12dp"
        android:layout_marginBottom="8dp"
+        android:padding="2dp"
 
         >
         <TextView
@@ -43,8 +49,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="۵۰ سی سی"
+            android:gravity="center"
             android:layout_gravity="center"
+            android:textColor="@android:color/black"
+
             android:textSize="20sp"
+            android:padding="4dp"
             />
 
     </com.google.android.material.card.MaterialCardView>
