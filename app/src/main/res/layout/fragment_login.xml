@@ -10,27 +10,27 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layoutDirection="rtl"
         >
 
-        <RelativeLayout
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/main_view"
+            android:layoutDirection="rtl"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
 
             >
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
+            <ImageView
                 android:id="@+id/fb_back"
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#fff"
-                android:layout_alignParentEnd="true"
-                app:rippleColor="@color/buttonGreen"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="end"
+                android:layout_margin="16dp"
+                android:padding="8dp"
+                android:clickable="true"
+                android:focusable="true"
                 android:foreground="?selectableItemBackground"
-                android:layout_margin="8dp"
-                app:layout_anchorGravity="end|top"
-                app:srcCompat="@drawable/abc_vector_test" />
+                android:tint="@android:color/black"
+                android:src="@drawable/ic_baseline_arrow_back_24"/>
             <LinearLayout
 
                 android:layout_width="match_parent"
@@ -110,7 +110,7 @@
 
 
             </LinearLayout>
-        </RelativeLayout>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
 

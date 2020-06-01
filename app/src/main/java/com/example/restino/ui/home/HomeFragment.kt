@@ -106,6 +106,7 @@ class HomeFragment : Fragment(), ProductRvAdapter.Interaction {
 
     }
 
+    // TODO bug : moving so fast
     private fun setupSlideshow() {
         if (slides.isEmpty()) {
             slides.add(Slide(R.drawable.slide1))

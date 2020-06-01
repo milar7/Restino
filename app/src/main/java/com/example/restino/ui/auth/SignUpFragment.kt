@@ -8,12 +8,11 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.restino.databinding.FragmentSignUpBinding
 import com.example.restino.R
+import com.example.restino.databinding.FragmentSignUpBinding
 import com.example.restino.util.Constance
 import com.example.restino.util.CurrentFragment
 import com.example.restino.util.isValidPassword
-import com.example.restino.ui.auth.SignUpFragmentDirections
 
 
 class SignUpFragment : Fragment() {
@@ -32,7 +31,7 @@ class SignUpFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        CurrentFragment.curr= Constance.SIGNUP
+        CurrentFragment.curr = Constance.SIGNUP
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_up, container, false)
         binding.lifecycleOwner = this
@@ -41,7 +40,9 @@ class SignUpFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
+        binding.fbBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
         setupNavigation()
 
         submitSignUp()
@@ -96,9 +97,9 @@ class SignUpFragment : Fragment() {
 
 
             if (!binding.etPasswordSignup.text.toString().isEmpty()) {
-                if ( !binding.etPasswordSignup.text.toString().trim().isValidPassword())
-                {
-                    binding.layPasswordSignup.error = "رمز عبور باید حداقل ۸ کاراکتر و شامل  یک حرف بزرگ و یک عدد باشد"
+                if (!binding.etPasswordSignup.text.toString().trim().isValidPassword()) {
+                    binding.layPasswordSignup.error =
+                        "رمز عبور باید حداقل ۸ کاراکتر و شامل  یک حرف بزرگ و یک عدد باشد"
                     return@setOnClickListener
                 } else {
                     binding.layPasswordSignup.isErrorEnabled = false
@@ -112,8 +113,9 @@ class SignUpFragment : Fragment() {
 
 
             if (!binding.etConfirmPassword.text.toString().isEmpty()) {
-                if (binding.etPasswordSignup.text.toString().trim()!=binding.etConfirmPassword.text.toString().trim())
-                {
+                if (binding.etPasswordSignup.text.toString()
+                        .trim() != binding.etConfirmPassword.text.toString().trim()
+                ) {
                     binding.layConfirmPassword.error = "رمز عبور با تکرار آن باید برابر باشد"
                     return@setOnClickListener
                 } else {
