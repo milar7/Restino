@@ -17,6 +17,7 @@ import com.example.restino.data.Result
 import com.example.restino.data.remote.responceAllProduct.ProductsItem
 import com.example.restino.data.repository.RestinoRepository
 import com.example.restino.databinding.FragmentHomeBinding
+import com.example.restino.ui.MainActivity
 import com.example.restino.ui.home.list.ProductRvAdapter
 import com.example.restino.ui.home.slideshow.Slide
 import com.example.restino.ui.home.slideshow.SlideShowPagerAdapter
@@ -43,14 +44,15 @@ class HomeFragment : Fragment(), ProductRvAdapter.Interaction {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         binding.lifecycleOwner = this
         (activity as AppCompatActivity).supportActionBar?.hide()
-        val restinoRepository = RestinoRepository()
-        val viewModelProviderFactory = InjectorUtil.HomeViewModelProviderFactory(restinoRepository)
-        viewModel = ViewModelProvider(this, viewModelProviderFactory).get(HomeViewModel::class.java)
+
+        viewModel=(activity as MainActivity).viewModel
 
         subscribeUi()
         setupSlideshow()
         initRecyclerView()
         setupSwipeRefresh()
+
+
         return binding.root
     }
 
@@ -121,7 +123,7 @@ class HomeFragment : Fragment(), ProductRvAdapter.Interaction {
 
         binding.tabIndicator.setupWithViewPager(binding.vPager, true)
         val timer = Timer()
-        timer.scheduleAtFixedRate(SliderTimer(), 4000, 6000)
+        timer.scheduleAtFixedRate(SliderTimer(), 4000, 12000)
     }
 
     inner class SliderTimer : TimerTask() {

@@ -1,5 +1,6 @@
 package com.example.restino.util
 
+import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.restino.data.remote.responceAllProduct.ProductsItem
@@ -10,10 +11,11 @@ import com.example.restino.ui.home.detail.DetailViewModel
 object InjectorUtil {
 
     class HomeViewModelProviderFactory
-        (val restinoRepository: RestinoRepository)
+        (val app:Application
+        ,val restinoRepository: RestinoRepository)
         :ViewModelProvider.Factory{
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return HomeViewModel(restinoRepository)as T
+            return HomeViewModel(app,restinoRepository)as T
         }
 
     }

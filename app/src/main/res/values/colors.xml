@@ -5,6 +5,7 @@
     <color name="colorAccent">#03DAC5</color>
 
     <color name="buttonGreen">#31CE90</color>
+    <color name="textRed">#B71C1C</color>
     <color name="textColorPrimary">#4A148C</color>
     <color name="toolbarIconColor">@color/textColorPrimary</color>
     <color name="loginPageBackgroundColor">#FFFFFF</color>
