@@ -6,6 +6,7 @@ import android.net.ConnectivityManager
 import android.net.ConnectivityManager.*
 import android.net.NetworkCapabilities.*
 import android.os.Build
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -18,7 +19,6 @@ import retrofit2.Response
 import java.io.IOException
 
 private const val TAG = "HomeViewModel"
-
 class HomeViewModel(
     app: Application,
     val restinoRepository: RestinoRepository
@@ -28,6 +28,7 @@ class HomeViewModel(
 
     // TODO do some thing with not to request every single time
     init {
+        Log.d(TAG, "init: ")
         getNewProducts()
     }
 

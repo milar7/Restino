@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.restino.R
@@ -15,7 +16,10 @@ import com.example.restino.util.NumberEnToFarsi
 import kotlinx.android.synthetic.main.item_product.view.*
 
 
-class ProductRvAdapter(private val interaction: Interaction? = null) :
+class ProductRvAdapter(
+    private val layoutManager: GridLayoutManager? = null,
+    private val interaction: Interaction? = null
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ProductsItem>() {
@@ -25,7 +29,7 @@ class ProductRvAdapter(private val interaction: Interaction? = null) :
         }
 
         override fun areContentsTheSame(oldItem: ProductsItem, newItem: ProductsItem): Boolean {
-            return oldItem== newItem
+            return oldItem == newItem
         }
 
     }
@@ -34,9 +38,7 @@ class ProductRvAdapter(private val interaction: Interaction? = null) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
-        return ProductViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.item_product,
+        return ProductViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_product,
                 parent,
                 false
             ),
@@ -60,23 +62,22 @@ class ProductRvAdapter(private val interaction: Interaction? = null) :
         differ.submitList(list)
     }
 
-    class ProductViewHolder
-    constructor(
-        itemView: View,
-        private val interaction: Interaction?
+    class ProductViewHolder constructor(
+        itemView: View, private val interaction: Interaction?
     ) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(item: ProductsItem) = with(itemView) {
             itemView.btn_product.setOnClickListener {
                 interaction?.onItemSelected(adapterPosition, item)
             }
-itemView.setOnClickListener {
-    interaction?.onItemSelected(adapterPosition, item)
+            itemView.setOnClickListener {
+                interaction?.onItemSelected(adapterPosition, item)
 
-}
+            }
             itemView.apply {
-                Glide.with(this).load("${Constance.BASE_URL}${item.image}").apply(GlideInstence.options).into(img_product)
-                title_product.text=item.name
+                Glide.with(this).load("${Constance.BASE_URL}${item.image}")
+                    .apply(GlideInstence.options).into(img_product)
+                title_product.text = item.name
                 img_price.text = " ${item.price.toString().NumberEnToFarsi()} ریال"
 
             }

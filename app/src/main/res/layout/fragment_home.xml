@@ -9,25 +9,25 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
+
         <ImageView
             android:id="@+id/img_logo"
             android:layout_width="250dp"
             android:layout_height="250dp"
-            android:src="@drawable/restino"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true"
+            android:src="@drawable/restino" />
 
 
         <com.example.restino.util.MultiSwipeRefreshLayout
             android:id="@+id/swipe_view"
-            android:visibility="invisible"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
+            android:layout_height="match_parent"
+            android:visibility="invisible">
 
 
             <androidx.core.widget.NestedScrollView
+                android:id="@+id/nested_scroll"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
@@ -53,6 +53,9 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="150dp"
                                 android:layout_marginStart="16dp"
+                                android:clickable="true"
+
+                                android:focusable="true"
                                 android:layout_marginEnd="16dp" />
 
                             <com.google.android.material.tabs.TabLayout
@@ -72,14 +75,34 @@
                                 android:layout_gravity="center_horizontal"
                                 android:background="@color/buttonGreen" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:textStyle="bold"
-                                android:layout_margin="4dp"
-                                android:textColor="@android:color/black"
-                                android:text="جدیدترین محصولات" />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:layout_margin="4dp"
+                                    android:text="جدیدترین محصولات"
+                                    android:textColor="@android:color/black"
+                                    android:textStyle="bold" />
+
+                                <ImageView
+                                    android:visibility="gone"
+                                    android:id="@+id/btn_grid"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:clickable="true"
+                                    android:focusable="true"
+                                    android:foreground="?selectableItemBackground"
+                                    android:src="@drawable/ic_baseline_format_align_justify_24"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_marginStart="16dp"
+                                    />
+
+                            </RelativeLayout>
 
                             <View
                                 android:layout_width="110dp"
@@ -89,30 +112,14 @@
 
                         </LinearLayout>
 
-                        <RelativeLayout
-                            android:layout_marginTop="8dp"
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recycler_view_home"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal">
-
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/recycler_view_home"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                                app:spanCount="2"
-                                tools:listitem="@layout/item_product" />
-
-                            <ProgressBar
-                                android:id="@+id/pb_home"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:visibility="gone"
-                                android:layout_margin="4dp" />
-
-                        </RelativeLayout>
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="8dp"
+                            tools:listitem="@layout/item_product" />
 
 
                     </LinearLayout>
@@ -124,6 +131,14 @@
 
         </com.example.restino.util.MultiSwipeRefreshLayout>
 
+        <ProgressBar
+            android:id="@+id/pb_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/img_logo"
+            android:layout_centerInParent="true"
+            android:layout_margin="4dp"
+            android:visibility="gone" />
 
     </RelativeLayout>
 

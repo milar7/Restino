@@ -39,11 +39,26 @@ class LoginFragment : Fragment() {
         viewModel = ViewModelProviders.of(this).get(AuthViewModel::class.java)
         // TODO: Use the ViewModel
 
+
+
         binding.fbBack.setOnClickListener {
             findNavController().navigateUp()
         }
 
         binding.btnSubmitLogin.setOnClickListener {
+
+            if (binding.etPhoneNumLogin.text.toString().trim().isEmpty()){
+                binding.laPhoneNumLogin.error="لطفا شماره موبایل را وارد کنید"
+                return@setOnClickListener
+            }else{
+                binding.laPhoneNumLogin.isErrorEnabled=false}
+
+            if (binding.etPasswordLogin.text.toString().trim().isEmpty()){
+                binding.layPasswordLogin.error="لطفا رمز عبور خود را را وارد کنید"
+                return@setOnClickListener
+            }else{
+                binding.layPasswordLogin.isErrorEnabled=false}
+
 
             Toast.makeText(context, "submit", Toast.LENGTH_SHORT).show()
 

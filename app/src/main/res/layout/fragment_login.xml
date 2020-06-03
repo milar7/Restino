@@ -53,12 +53,14 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layoutDirection="rtl"
                     style="@style/Widget.Shrine.TextInputLayout"
+                    android:id="@+id/la_phone_num_login"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:hint="شماره همراه">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_phone_num_login"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
@@ -70,6 +72,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.Shrine.TextInputLayout"
                     android:layoutDirection="rtl"
+                    android:id="@+id/lay_password_login"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:passwordToggleEnabled="true"
@@ -80,6 +83,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textPassword"
+                        android:id="@+id/et_password_login"
                         android:layout_marginTop="8dp"
                         android:maxLines="1" />
 

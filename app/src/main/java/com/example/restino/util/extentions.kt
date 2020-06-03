@@ -61,9 +61,11 @@ fun String.isValidPassword() : Boolean {
     this?.let {
         val passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d@\$!%*#?&]{8,}\$"
         val passwordMatcher = Regex(passwordPattern)
-        return passwordMatcher.find(this) != null
+        return passwordMatcher.containsMatchIn(this)
     } ?: return false
 }
+
+
 fun String.isValidPassword2(): Boolean {
 
     val PASSWORD_PATTERN = "(/^(?=.*\\d)(?=.*[A-Z])([@\$%&#])[0-9a-zA-Z]{4,}\$/)";

@@ -44,7 +44,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="ورود"
+            android:text="ثبت نام"
+            android:layout_margin="8dp"
             android:textColor="#000"
             android:textSize="25sp" />
 
