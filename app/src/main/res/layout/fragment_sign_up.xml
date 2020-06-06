@@ -36,16 +36,17 @@
         android:orientation="vertical"
         android:clipChildren="false"
         android:clipToPadding="false"
-        android:padding="24dp"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
         android:layout_margin="4dp"
-        android:paddingTop="16dp">
+        android:paddingTop="8dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="ثبت نام"
-            android:layout_margin="8dp"
+            android:layout_marginBottom="8dp"
             android:textColor="#000"
             android:textSize="25sp" />
 
@@ -117,11 +118,10 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/lay_password_signup"
             style="@style/Widget.Shrine.TextInputLayout"
-            android:layoutDirection="rtl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:passwordToggleEnabled="true"
-
+android:layoutDirection="ltr"
             android:hint="رمز عبور">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -136,10 +136,10 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/lay_confirm_password"
             style="@style/Widget.Shrine.TextInputLayout"
-            android:layoutDirection="rtl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:passwordToggleEnabled="true"
+            android:layoutDirection="ltr"
 
             android:hint="تکرار رمز عبور">
 
@@ -160,7 +160,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/buttonGreen"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:text="ثبت نام" />
 
         <com.google.android.material.button.MaterialButton
@@ -178,6 +178,14 @@
 
 
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/pb_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="invisible"
+        />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

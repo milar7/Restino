@@ -1,18 +1,29 @@
 package com.example.restino.ui.auth
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.customview.customView
 import com.example.restino.R
 import com.example.restino.databinding.FragmentSignUpBinding
-import com.example.restino.util.Constance
-import com.example.restino.util.CurrentFragment
-import com.example.restino.util.isValidPassword
+import com.example.restino.ui.MainActivity
+import com.example.restino.util.*
+import com.example.restino.data.Result
+import com.example.restino.data.model.UserAuth
+import com.poovam.pinedittextfield.PinField.OnTextCompleteListener
+import kotlinx.android.synthetic.main.layout_pin_entry.*
+import kotlinx.android.synthetic.main.layout_pin_entry.view.*
+import org.jetbrains.annotations.NotNull
+import www.sanju.motiontoast.MotionToast
 
 
 class SignUpFragment : Fragment() {
@@ -21,10 +32,8 @@ class SignUpFragment : Fragment() {
     private lateinit var binding: FragmentSignUpBinding
     private val TAG = "SignUpFragmet"
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private lateinit var viewModel: AuthViewModel
 
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,14 +41,15 @@ class SignUpFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         CurrentFragment.curr = Constance.SIGNUP
+        viewModel = (activity as MainActivity).viewAuthModel
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_up, container, false)
         binding.lifecycleOwner = this
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding.fbBack.setOnClickListener {
             findNavController().navigateUp()
         }
@@ -51,6 +61,8 @@ class SignUpFragment : Fragment() {
 
     private fun submitSignUp() {
         binding.btnSubmitSignup.setOnClickListener {
+           if( !(activity as MainActivity).isConnected)
+               return@setOnClickListener
 
             if (!binding.etPhoneNumSignup.text.toString().isEmpty()) {
                 if (binding.etPhoneNumSignup.text.toString().trim().length != 11 ||
@@ -129,9 +141,138 @@ class SignUpFragment : Fragment() {
             }
 
 
-            Toast.makeText(context, "طلاعات صحیح است", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(context, "طلاعات صحیح است", Toast.LENGTH_SHORT).show()
 
+            val username = binding.etPhoneNumSignup.text.toString().trim()
+            val password = binding.etPasswordSignup.text.toString().trim()
+            val email = ""
+            val firstName = binding.etFirstName.text.toString().trim()
+            val lastName = binding.etLastName.text.toString().trim()
+            val nationalCode = binding.etNationalCode.text.toString().trim()
+
+
+            register(username, password, email, firstName, lastName, nationalCode)
         }
+
+    }
+
+    private fun register(
+        username: String,
+        password: String,
+        email: String,
+        first_name: String,
+        last_name: String,
+        national_code: String
+    ) {
+        viewModel.registerUser(username, password, email, first_name, last_name, national_code)
+
+
+
+
+        viewModel.register.observe(viewLifecycleOwner, Observer { response ->
+            when (response) {
+                is Result.Success -> {
+                    binding.pbRegister.hide()
+                    response.data?.let {
+                        Log.d(TAG, "register:Success ${response.data?.status}")
+
+                        showCodeDialog(UserAuth(username = username,password = password,email = email,first_name = first_name,
+                        last_name = last_name,national_code = national_code))
+
+                    }
+                }
+                is Result.Error -> {
+                    binding.pbRegister.hide()
+                    Log.d(TAG, "register:Error ${response.data?.status}")
+                    MotionToast.createToast(requireActivity(),"کاربری با این شماره همراه وجود دارد",
+                        MotionToast.TOAST_ERROR,
+                        MotionToast.GRAVITY_BOTTOM,
+                        MotionToast.LONG_DURATION,
+                        ResourcesCompat.getFont(requireContext(),R.font.helvetica_regular))
+                }
+                is Result.Loading ->
+                    binding.pbRegister.show()
+
+
+            }
+
+        })
+    }
+
+
+    private fun showCodeDialog(userAuth: UserAuth?) {
+        val dialog = MaterialDialog(requireContext())
+            .show {
+                customView(R.layout.layout_pin_entry)
+                cancelable(false)
+                cancelOnTouchOutside(false)
+            }
+
+        dialog.lineField.requestFocus()
+
+        dialog.btn_confirm_code.setOnClickListener {
+            if( !(activity as MainActivity).isConnected)
+                return@setOnClickListener
+
+            if (dialog.view.lineField.text.toString().length < 5) {
+                dialog.btn_confirm_code.isEnabled = false
+                return@setOnClickListener
+            }
+//            Toast.makeText(context, dialog.view.lineField.text.toString(), Toast.LENGTH_SHORT)
+//                .show()
+
+            setUpActiveReq(dialog,userAuth!!)
+
+            dismissKeyboard()
+        }
+        dialog.view.lineField.onTextCompleteListener = object : OnTextCompleteListener {
+            override fun onTextComplete(@NotNull enteredText: String): Boolean {
+                dialog.btn_confirm_code.isEnabled = true
+                return true // Return true to keep the keyboard open else return false to close the keyboard
+            }
+        }
+        dialog.btn_cancle_code.setOnClickListener {
+            dismissKeyboard()
+            dialog.view.lineField.text?.clear()
+            dialog.dismiss()
+        }
+    }
+
+    private fun setUpActiveReq(
+        dialog: MaterialDialog,
+        userAuth: UserAuth
+    ) {
+
+        viewModel.activeUser(opt_code = dialog.view.lineField.text.toString(),
+        username = userAuth.username,email = userAuth.email,password = userAuth.password,first_name = userAuth.first_name,last_name = userAuth.last_name,
+        national_code = userAuth.national_code)
+        viewModel.active.observe(viewLifecycleOwner, androidx.lifecycle.Observer { response ->
+            when (response) {
+                is Result.Success -> {
+                    dialog.pb_active_code.hide()
+                    dialog.tv_error_code.visibility=View.GONE
+                    response.data?.let {
+                        Toast.makeText(context, "user created", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Result.Error -> {
+//                    binding.pbHome.hide()
+                    dialog.pb_active_code.hide()
+                    dialog.tv_error_code.visibility=View.VISIBLE
+                    dialog.lineField.text?.clear()
+//                    response.message?.let {
+//                        Log.e("HOMEFRAGMENT", "An error occured: $it")
+//                    }
+                }
+                is Result.Loading ->{
+                    dialog.pb_active_code.show()
+                    dialog.tv_error_code.visibility=View.GONE
+                }
+                   // binding.pbHome.show()
+
+
+            }
+        })
     }
 
 
@@ -143,6 +284,7 @@ class SignUpFragment : Fragment() {
         }
         binding.logInButtonSignup.setOnClickListener {
             findNavController().navigateUp()
+
         }
     }
 

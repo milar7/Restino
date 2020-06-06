@@ -2,8 +2,10 @@ package com.example.restino.util
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.content.Context
 import android.view.View
 import android.view.animation.Animation
+import android.view.inputmethod.InputMethodManager
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -55,6 +57,12 @@ fun String.NumberEnToFarsi():String{
 
 }
 
+fun Fragment.dismissKeyboard() {
+    val imm: InputMethodManager? = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    activity?.currentFocus?.windowToken?.let {
+        imm?.hideSoftInputFromWindow(it, 0)
+    }
+}
 
 
 fun String.isValidPassword() : Boolean {

@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.restino"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -87,4 +87,11 @@ dependencies {
     //material dialog
     implementation 'com.afollestad.material-dialogs:core:3.3.0'
 
+
+    //material toast
+    implementation 'com.github.Spikeysanju:MotionToast:1.3.2'
+
+
+    //pin Entry layout
+    implementation 'com.poovam:pin-edittext-field:1.2.3'
 }

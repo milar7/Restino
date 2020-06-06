@@ -19,7 +19,6 @@ import com.example.restino.util.CurrentFragment
 class LoginFragment : Fragment() {
 
 
-    private lateinit var viewModel: AuthViewModel
     private lateinit var binding: FragmentLoginBinding
 
     override fun onCreateView(
@@ -36,7 +35,6 @@ class LoginFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(AuthViewModel::class.java)
         // TODO: Use the ViewModel
 
 

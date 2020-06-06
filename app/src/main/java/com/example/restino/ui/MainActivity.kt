@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.example.restino.R
 import com.example.restino.data.repository.RestinoRepository
+import com.example.restino.ui.auth.AuthViewModel
 import com.example.restino.ui.home.HomeFragmentDirections
 import com.example.restino.ui.home.HomeViewModel
 import com.example.restino.ui.home.detail.DetailFragmentDirections
@@ -22,14 +23,23 @@ class MainActivity : BaseActivity() {
     lateinit var snackbarConnections:Snackbar
     lateinit var snackbarConnections2:Snackbar
      lateinit var viewModel:HomeViewModel
+     lateinit var viewAuthModel:AuthViewModel
     var isConnected=false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         val restinoRepository = RestinoRepository()
+
         val viewModelProviderFactory = InjectorUtil.HomeViewModelProviderFactory(application,restinoRepository)
         viewModel = ViewModelProvider(this, viewModelProviderFactory).get(HomeViewModel::class.java)
+
+
+
+
+        val viewAuthModelProviderFactory = InjectorUtil.AuthViewModelProviderFactory(application,restinoRepository)
+        viewAuthModel = ViewModelProvider(this, viewAuthModelProviderFactory).get(AuthViewModel::class.java)
         actionbarsetup()
         snackbarsetup()
 
