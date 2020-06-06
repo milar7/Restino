@@ -33,6 +33,7 @@ object InjectorUtil {
     }
 
 
+
     class DetailViewModelProviderFactory
         (val productsItem: ProductsItem)
         :ViewModelProvider.Factory{

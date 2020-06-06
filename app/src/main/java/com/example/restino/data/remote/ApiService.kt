@@ -1,7 +1,7 @@
 package com.example.restino.data.remote
 
 import com.example.restino.data.remote.responceAllProduct.Products
-import com.example.restino.data.remote.responceLogin.AuthResponse
+import com.example.restino.data.remote.responceLogin.LoginResponse
 import com.example.restino.data.remote.responceRegister.RegisterResponce
 import retrofit2.Response
 import retrofit2.http.Field
@@ -46,7 +46,7 @@ interface ApiService {
     suspend fun loginUser(
         @Field("username") username :String,
         @Field("password") password :String
-    ): Response<AuthResponse>
+    ): Response<LoginResponse>
 //    @GET("products/api/v1/products/:id/")
 //    suspend fun getProductById(
 //        @Query("id")

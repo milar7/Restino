@@ -1,5 +1,6 @@
 package com.example.restino.ui
 
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -23,7 +24,6 @@ class MainActivity : BaseActivity() {
     lateinit var snackbarConnections:Snackbar
     lateinit var snackbarConnections2:Snackbar
      lateinit var viewModel:HomeViewModel
-     lateinit var viewAuthModel:AuthViewModel
     var isConnected=false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,16 +35,34 @@ class MainActivity : BaseActivity() {
         val viewModelProviderFactory = InjectorUtil.HomeViewModelProviderFactory(application,restinoRepository)
         viewModel = ViewModelProvider(this, viewModelProviderFactory).get(HomeViewModel::class.java)
 
-
-
-
-        val viewAuthModelProviderFactory = InjectorUtil.AuthViewModelProviderFactory(application,restinoRepository)
-        viewAuthModel = ViewModelProvider(this, viewAuthModelProviderFactory).get(AuthViewModel::class.java)
         actionbarsetup()
         snackbarsetup()
 
 
+        btn_log_out_home.setOnClickListener {
+            if (isConnected)
+                UserIsLoggedOut()
+            //TODO logout
+        }
+
     }
+
+
+    fun UserIsLoggedIn(){
+        btn_sign_in_home.visibility=View.GONE
+        lay_loggedIn.visibility=View.VISIBLE
+
+    }
+
+    fun UserIsLoggedOut(){
+        btn_sign_in_home.visibility=View.VISIBLE
+        lay_loggedIn.visibility=View.GONE
+
+    }
+
+
+
+
 
     private fun actionbarsetup() {
         setSupportActionBar(findViewById(R.id.my_toolbar))

@@ -1,24 +1,28 @@
 package com.example.restino.ui.auth
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.example.restino.R
+import com.example.restino.data.Result
+import com.example.restino.data.model.UserAuth
+import com.example.restino.data.repository.RestinoRepository
 import com.example.restino.databinding.FragmentSignUpBinding
 import com.example.restino.ui.MainActivity
 import com.example.restino.util.*
-import com.example.restino.data.Result
-import com.example.restino.data.model.UserAuth
 import com.poovam.pinedittextfield.PinField.OnTextCompleteListener
 import kotlinx.android.synthetic.main.layout_pin_entry.*
 import kotlinx.android.synthetic.main.layout_pin_entry.view.*
@@ -41,8 +45,16 @@ class SignUpFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         CurrentFragment.curr = Constance.SIGNUP
-        viewModel = (activity as MainActivity).viewAuthModel
+        (activity as AppCompatActivity).supportActionBar?.hide()
 
+        val restinoRepository = RestinoRepository()
+
+        val viewAuthModelProviderFactory = InjectorUtil.AuthViewModelProviderFactory(
+            requireActivity().application,
+            restinoRepository
+        )
+        viewModel =
+            ViewModelProvider(this, viewAuthModelProviderFactory).get(AuthViewModel::class.java)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_up, container, false)
         binding.lifecycleOwner = this
         return binding.root
@@ -61,8 +73,8 @@ class SignUpFragment : Fragment() {
 
     private fun submitSignUp() {
         binding.btnSubmitSignup.setOnClickListener {
-           if( !(activity as MainActivity).isConnected)
-               return@setOnClickListener
+            if (!(activity as MainActivity).isConnected)
+                return@setOnClickListener
 
             if (!binding.etPhoneNumSignup.text.toString().isEmpty()) {
                 if (binding.etPhoneNumSignup.text.toString().trim().length != 11 ||
@@ -152,6 +164,8 @@ class SignUpFragment : Fragment() {
 
 
             register(username, password, email, firstName, lastName, nationalCode)
+
+
         }
 
     }
@@ -164,11 +178,9 @@ class SignUpFragment : Fragment() {
         last_name: String,
         national_code: String
     ) {
+
+
         viewModel.registerUser(username, password, email, first_name, last_name, national_code)
-
-
-
-
         viewModel.register.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
                 is Result.Success -> {
@@ -176,19 +188,29 @@ class SignUpFragment : Fragment() {
                     response.data?.let {
                         Log.d(TAG, "register:Success ${response.data?.status}")
 
-                        showCodeDialog(UserAuth(username = username,password = password,email = email,first_name = first_name,
-                        last_name = last_name,national_code = national_code))
+                        showCodeDialog(
+                            UserAuth(
+                                username = username,
+                                password = password,
+                                email = email,
+                                first_name = first_name,
+                                last_name = last_name,
+                                national_code = national_code
+                            )
+                        )
 
                     }
                 }
                 is Result.Error -> {
                     binding.pbRegister.hide()
                     Log.d(TAG, "register:Error ${response.data?.status}")
-                    MotionToast.createToast(requireActivity(),"کاربری با این شماره همراه وجود دارد",
+                    MotionToast.createToast(
+                        requireActivity(), "کاربری با این شماره همراه وجود دارد",
                         MotionToast.TOAST_ERROR,
                         MotionToast.GRAVITY_BOTTOM,
                         MotionToast.LONG_DURATION,
-                        ResourcesCompat.getFont(requireContext(),R.font.helvetica_regular))
+                        ResourcesCompat.getFont(requireContext(), R.font.helvetica_regular)
+                    )
                 }
                 is Result.Loading ->
                     binding.pbRegister.show()
@@ -208,10 +230,15 @@ class SignUpFragment : Fragment() {
                 cancelOnTouchOutside(false)
             }
 
+        val number = userAuth!!.username.NumberEnToFarsi()
+        val str1="لطفا کد ارسال شده به "
+        val str2="را وارد کنید"
+        val ftext="$str1 $number $str2"
+        dialog.tv_number.text = ftext
         dialog.lineField.requestFocus()
 
         dialog.btn_confirm_code.setOnClickListener {
-            if( !(activity as MainActivity).isConnected)
+            if (!(activity as MainActivity).isConnected)
                 return@setOnClickListener
 
             if (dialog.view.lineField.text.toString().length < 5) {
@@ -221,7 +248,7 @@ class SignUpFragment : Fragment() {
 //            Toast.makeText(context, dialog.view.lineField.text.toString(), Toast.LENGTH_SHORT)
 //                .show()
 
-            setUpActiveReq(dialog,userAuth!!)
+            setUpActiveReq(dialog, userAuth!!)
 
             dismissKeyboard()
         }
@@ -243,36 +270,86 @@ class SignUpFragment : Fragment() {
         userAuth: UserAuth
     ) {
 
-        viewModel.activeUser(opt_code = dialog.view.lineField.text.toString(),
-        username = userAuth.username,email = userAuth.email,password = userAuth.password,first_name = userAuth.first_name,last_name = userAuth.last_name,
-        national_code = userAuth.national_code)
+        viewModel.activeUser(
+            opt_code = dialog.view.lineField.text.toString(),
+            username = userAuth.username,
+            email = userAuth.email,
+            password = userAuth.password,
+            first_name = userAuth.first_name,
+            last_name = userAuth.last_name,
+            national_code = userAuth.national_code
+        )
         viewModel.active.observe(viewLifecycleOwner, androidx.lifecycle.Observer { response ->
             when (response) {
                 is Result.Success -> {
                     dialog.pb_active_code.hide()
-                    dialog.tv_error_code.visibility=View.GONE
+                    dialog.tv_error_code.visibility = View.GONE
                     response.data?.let {
-                        Toast.makeText(context, "user created", Toast.LENGTH_SHORT).show()
+                        loginUser(userAuth)
+                        dialog.dismiss()
                     }
                 }
                 is Result.Error -> {
 //                    binding.pbHome.hide()
                     dialog.pb_active_code.hide()
-                    dialog.tv_error_code.visibility=View.VISIBLE
+                    dialog.tv_error_code.visibility = View.VISIBLE
                     dialog.lineField.text?.clear()
 //                    response.message?.let {
 //                        Log.e("HOMEFRAGMENT", "An error occured: $it")
 //                    }
                 }
-                is Result.Loading ->{
+                is Result.Loading -> {
                     dialog.pb_active_code.show()
-                    dialog.tv_error_code.visibility=View.GONE
+                    dialog.tv_error_code.visibility = View.GONE
                 }
-                   // binding.pbHome.show()
+                // binding.pbHome.show()
 
 
             }
         })
+    }
+
+    private fun loginUser(userAuth: UserAuth) {
+        viewModel.loginUser(username = userAuth.username,
+        password = userAuth.password)
+
+        viewModel.login.observe(viewLifecycleOwner, Observer {response->
+            when (response) {
+                is Result.Success -> {
+                    binding.pbRegister.hide()
+                    response.data?.let {
+                        val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return@let
+                        with (sharedPref.edit()) {
+                            putString("accessToken", it.access)
+                            putString("refreshToken", it.refresh)
+                            commit()
+                        }
+
+                        (activity as MainActivity).UserIsLoggedIn()
+                        findNavController().navigate(
+                            SignUpFragmentDirections.actionSignUpFragmentToHomeFragment()
+
+                        )
+                    }
+                }
+                is Result.Error -> {
+//                    binding.pbHome.hide()
+                    binding.pbRegister.hide()
+
+//                    response.message?.let {
+//                        Log.e("HOMEFRAGMENT", "An error occured: $it")
+//                    }
+                }
+                is Result.Loading -> {
+                    binding.pbRegister.show()
+
+                }
+                // binding.pbHome.show()
+
+
+            }
+        })
+
     }
 
 

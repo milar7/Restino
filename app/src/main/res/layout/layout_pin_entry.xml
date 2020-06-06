@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="4dp"
     android:padding="8dp">
 
@@ -17,12 +18,12 @@
 
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/tv_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_margin="8dp"
-            android:text="لطفا کد ارسال شده به شماره خود را وارد کنید"
+            tools:text="لطفا کد ارسال شده به شماره خود را وارد کنید"
             android:textColor="@android:color/black" />
 
         <com.poovam.pinedittextfield.LinePinField

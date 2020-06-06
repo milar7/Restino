@@ -2,59 +2,127 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/container"
     tools:context=".ui.MainActivity">
 
 
-
     <com.google.android.material.appbar.MaterialToolbar
-        android:layoutDirection="rtl"
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#FFF"
+        android:background="@drawable/toolbar_bg"
         android:elevation="4dp"
-        app:title=""
+        android:layoutDirection="rtl"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
+
             <TextView
                 android:id="@+id/tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="state"
-                android:visibility="gone"
-                android:textColor="#006064"
                 android:gravity="center"
+                android:text="state"
+                android:textColor="#006064"
+                android:visibility="gone"
 
                 />
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_sign_in_home"
+
+
+            <RelativeLayout
+                android:id="@+id/cont_log"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/Widget.Shrine.Button.TextButton"
-                android:text="وارد شوید"
                 android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="16dp"
-                />
+                android:layout_centerVertical="true">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_sign_in_home"
+                    style="@style/Widget.Shrine.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="وارد شوید"
+                    android:visibility="visible" />
+
+                <LinearLayout
+                    android:id="@+id/lay_loggedIn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_profile_home"
+                        style="@style/Widget.Shrine.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" حساب کاربری" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@android:color/darker_gray" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_log_out_home"
+                        style="@style/Widget.Shrine.Button.TextButton"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:text=" خروج" />
+                </LinearLayout>
+            </RelativeLayout>
+
+
             <ImageView
-                android:layout_marginStart="8dp"
-                android:layout_centerVertical="true"
-                android:scaleType="fitXY"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/restino"
-                />
+                android:layout_centerVertical="true"
+                android:layout_marginStart="8dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/restino" />
+
+            <RelativeLayout
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@id/cont_log"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?selectableItemBackground"
+
+                >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_baseline_add_shopping_cart_24" />
+
+                <TextView
+                    android:id="@+id/tv_order_number"
+                    android:layout_width="18dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/number_bg"
+                    android:gravity="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:visibility="invisible"
+                    tools:text="99" />
+            </RelativeLayout>
+
 
         </RelativeLayout>
 
@@ -62,11 +130,11 @@
     </com.google.android.material.appbar.MaterialToolbar>
 
     <fragment
-        android:layout_marginTop="60dp"
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
         app:defaultNavHost="true"
         app:navGraph="@navigation/nav_graph" />
 

@@ -10,7 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.restino.MyApplication
 import com.example.restino.data.Result
-import com.example.restino.data.remote.responceLogin.AuthResponse
+import com.example.restino.data.remote.responceLogin.LoginResponse
 import com.example.restino.data.remote.responceRegister.RegisterResponce
 import com.example.restino.data.repository.RestinoRepository
 import kotlinx.coroutines.launch
@@ -25,7 +25,33 @@ class AuthViewModel(
 
     val register: MutableLiveData<Result<RegisterResponce>> = MutableLiveData()
     val active: MutableLiveData<Result<RegisterResponce>> = MutableLiveData()
+    val login: MutableLiveData<Result<LoginResponse>> = MutableLiveData()
+    fun loginUser(username :String,
+                  password :String
+    )= viewModelScope.launch{
+        safeLoginUser(username, password)
+    }
+    private suspend fun safeLoginUser(username: String, password: String) {
+        login.postValue(Result.Loading())
 
+        try {
+
+
+            if (hasInternetConnection()){
+                val responce=restinoRepository.loginUser(username, password)
+                login.postValue(handleLogin(responce))
+            }else{
+                login.postValue(Result.Error("-No internet connection"))
+            }
+        }catch (t: Throwable) {
+            when (t) {
+                is IOException -> login.postValue(Result.Error("-Network Failure"))
+                else -> login.postValue(Result.Error("-Conversion Error"))
+
+
+            }
+        }
+    }
 
     fun registerUser(username :String,
                      password :String,
@@ -44,6 +70,15 @@ class AuthViewModel(
                      last_name :String,
                      national_code :String)= viewModelScope.launch{
         safeActiveUser(opt_code,username, password, email, first_name, last_name, national_code)
+    }
+    fun handleLogin(responce: Response<LoginResponse>):Result<LoginResponse>{
+
+        if (responce.isSuccessful){
+            responce.body()?.let {
+                return Result.Success(it)
+            }
+        }
+        return Result.Error(responce.message(),responce.body())
     }
 
     private suspend fun safeActiveUser(optCode: String, username: String, password: String, email: String, firstName: String, lastName: String, nationalCode: String) {
