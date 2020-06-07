@@ -52,6 +52,11 @@ class RestinoRepository(
         username,
         password
     )
+    suspend fun getProfile(
+        access: String
+    ) = RetrofitInctance.api.getProfile(
+        access = access
+    )
 
 
 

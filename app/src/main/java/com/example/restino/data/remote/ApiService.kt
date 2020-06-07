@@ -3,11 +3,9 @@ package com.example.restino.data.remote
 import com.example.restino.data.remote.responceAllProduct.Products
 import com.example.restino.data.remote.responceLogin.LoginResponse
 import com.example.restino.data.remote.responceRegister.RegisterResponce
+import com.example.restino.data.remote.responseProfile.ProfileResponse
 import retrofit2.Response
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
 
 interface ApiService {
@@ -47,6 +45,13 @@ interface ApiService {
         @Field("username") username :String,
         @Field("password") password :String
     ): Response<LoginResponse>
+
+
+    @GET("accounts/api/v1/profile/")
+    suspend fun getProfile(
+        @Header("Authorization")access :String
+    ): Response<ProfileResponse>
+
 //    @GET("products/api/v1/products/:id/")
 //    suspend fun getProductById(
 //        @Query("id")

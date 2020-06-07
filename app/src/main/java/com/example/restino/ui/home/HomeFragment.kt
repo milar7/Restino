@@ -6,28 +6,21 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.bumptech.glide.Glide
 import com.example.restino.R
 import com.example.restino.data.Result
 import com.example.restino.data.remote.responceAllProduct.ProductsItem
-import com.example.restino.data.repository.RestinoRepository
 import com.example.restino.databinding.FragmentHomeBinding
 import com.example.restino.ui.MainActivity
 import com.example.restino.ui.home.list.ProductRvAdapter
 import com.example.restino.ui.home.slideshow.Slide
 import com.example.restino.ui.home.slideshow.SlideShowPagerAdapter
 import com.example.restino.util.*
-import kotlinx.coroutines.*
 import java.lang.Runnable
 import java.util.*
-import kotlin.math.log
 
 private const val TAG = "HomeFragment"
 
@@ -115,6 +108,9 @@ class HomeFragment : Fragment(), ProductRvAdapter.Interaction {
     }
 
     private fun subscribeUi() {
+
+
+
         viewModel.newProducts.observe(viewLifecycleOwner, androidx.lifecycle.Observer { response ->
             when (response) {
                 is Result.Success -> {
@@ -139,6 +135,7 @@ class HomeFragment : Fragment(), ProductRvAdapter.Interaction {
 
             }
         })
+
 
     }
 

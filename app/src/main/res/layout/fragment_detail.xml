@@ -13,225 +13,223 @@
             name="product"
             type="com.example.restino.data.remote.responceAllProduct.ProductsItem" />
     </data>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layoutDirection="rtl"
 
-
-    >
-    <RelativeLayout
-        android:id="@+id/main_view"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layoutDirection="rtl"
+
 
         >
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.home.detail.DetailFragment">
 
+        <RelativeLayout
+            android:id="@+id/main_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
 
-            <LinearLayout
+            >
+
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                tools:context=".ui.home.detail.DetailFragment">
 
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="350dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_margin="16dp"
-                    android:padding="16dp"
-                    app:cardCornerRadius="15dp">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="350dp"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:id="@+id/img_product"
-                            android:layout_width="250dp"
-                            android:layout_height="300dp"
-                            android:layout_gravity="center_horizontal"
-                            android:scaleType="fitXY"
-                            tools:src="@drawable/product1" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_margin="4dp"
-                            android:gravity="center"
-                            android:text="categories"
-
-                            />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_margin="16dp"
-                            android:gravity="center"
-                            android:text="@{viewModel.productsItem.name}"
-                            tools:text="ژل ضدعفونی کننده دست ریف ۱۲۰ سی‌سی"
-                            android:textSize="20sp"
-                            android:textColor="@android:color/black"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_margin="8dp"
-                            android:gravity="center"
-                            android:text="@{viewModel.productsItem.brand.name}"
-                            tools:text="شیمیایی رازی اصفهان" />
-
-
-                        <TextView
-                            android:id="@+id/tv_price"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_margin="8dp"
-                            android:gravity="center"
-                            tools:text="۲۵۰۰۰۰ ریال"
-                            app:textprice="@{viewModel.productsItem}"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
+                        android:layout_gravity="center_horizontal"
+                        android:layout_margin="16dp"
+                        android:padding="16dp"
+                        app:cardCornerRadius="15dp">
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_margin="16dp"
-                            android:orientation="horizontal">
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/img_product"
+                                android:layout_width="250dp"
+                                android:layout_height="300dp"
+                                android:layout_gravity="center_horizontal"
+                                android:scaleType="fitXY"
+                                tools:src="@drawable/product1" />
+
+                            <TextView
+                                textcategories="@{viewModel.productsItem}"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_margin="4dp"
+                                android:gravity="center" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_margin="4dp"
-                                android:text="تعداد را انتخاب کنید:" />
-
-                            <ImageButton
-                                android:id="@+id/btn_plus"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:foreground="?selectableItemBackground"
-                                android:src="@drawable/ic_add_black_24dp" />
-
-                            <TextView
-                                android:id="@+id/tv_count"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_margin="4dp"
-                                android:text="0"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_margin="16dp"
+                                android:gravity="center"
+                                android:text="@{viewModel.productsItem.name}"
+                                android:textColor="@android:color/black"
                                 android:textSize="20sp"
+                                android:textStyle="bold"
+                                tools:text="ژل ضدعفونی کننده دست ریف ۱۲۰ سی‌سی" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_margin="8dp"
+                                android:gravity="center"
+                                android:text="@{viewModel.productsItem.brand.name}"
+                                tools:text="شیمیایی رازی اصفهان" />
+
+
+                            <TextView
+                                android:id="@+id/tv_price"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_margin="8dp"
+                                android:gravity="center"
+                                android:textColor="@android:color/black"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                app:textprice="@{viewModel.productsItem}"
+                                tools:text="۲۵۰۰۰۰ ریال" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_margin="16dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_margin="4dp"
+                                    android:text="تعداد را انتخاب کنید:" />
+
+                                <ImageButton
+                                    android:id="@+id/btn_plus"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:foreground="?selectableItemBackground"
+                                    android:src="@drawable/ic_add_black_24dp" />
+
+                                <TextView
+                                    android:id="@+id/tv_count"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_margin="4dp"
+                                    android:text="0"
+                                    android:textSize="20sp"
+                                    android:textStyle="bold" />
+
+                                <ImageButton
+                                    android:id="@+id/btn_mines"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:foreground="?selectableItemBackground"
+                                    android:src="@drawable/ic_remove_black_24dp"
+
+                                    />
+
+
+                            </LinearLayout>
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btn_add_to_card"
+                                android:layout_width="200dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_margin="16dp"
+                                android:backgroundTint="@color/buttonGreen"
+                                android:text="افزودن به سبد خرید "
+                                android:textSize="18sp"
                                 android:textStyle="bold" />
 
-                            <ImageButton
-                                android:id="@+id/btn_mines"
+                            <TextView
+                                android:id="@+id/tv_description"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:foreground="?selectableItemBackground"
-                                android:src="@drawable/ic_remove_black_24dp"
-
-                                />
+                                android:layout_gravity="start"
+                                android:layout_margin="8dp"
+                                android:gravity="start"
+                                android:text="@{viewModel.productsItem.description}" />
 
 
                         </LinearLayout>
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btn_add_to_card"
-                            android:layout_width="200dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_margin="16dp"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            android:backgroundTint="@color/buttonGreen"
-                            android:text="افزودن به سبد خرید " />
-
-                        <TextView
-                            android:id="@+id/tv_description"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="start"
-                            android:layout_margin="8dp"
-                            android:gravity="start"
-                            android:text="@{viewModel.productsItem.description}" />
+                    </com.google.android.material.card.MaterialCardView>
 
 
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="350dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_margin="16dp"
+                        android:padding="16dp"
+                        app:cardCornerRadius="15dp">
 
-
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="350dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_margin="16dp"
-                    android:padding="16dp"
-                    app:cardCornerRadius="15dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-
-                        >
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_margin="16dp"
-                            android:text="مشخصات کالا"
-                            android:textColor="@android:color/black"
-                            android:textSize="20sp"
-                            android:textStyle="bold"
-
-                            />
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_info"
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            tools:itemCount="5"
-                            tools:listitem="@layout/item_rv_pro_info" />
-                    </LinearLayout>
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+
+                            >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_margin="16dp"
+                                android:text="مشخصات کالا"
+                                android:textColor="@android:color/black"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+
+                                />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_info"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                tools:itemCount="5"
+                                tools:listitem="@layout/item_rv_pro_info" />
+                        </LinearLayout>
 
 
-                </com.google.android.material.card.MaterialCardView>
+                    </com.google.android.material.card.MaterialCardView>
 
 
-            </LinearLayout>
+                </LinearLayout>
 
 
+            </androidx.core.widget.NestedScrollView>
+        </RelativeLayout>
 
+        <ImageView
+            android:id="@+id/fb_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="end"
+            android:layout_margin="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?selectableItemBackground"
+            android:padding="8dp"
+            android:src="@drawable/ic_baseline_arrow_back_24"
+            android:tint="@android:color/black" />
 
-    </androidx.core.widget.NestedScrollView>
-    </RelativeLayout>
-
-    <ImageView
-        android:id="@+id/fb_back"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_gravity="end"
-        android:layout_margin="16dp"
-        android:padding="8dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?selectableItemBackground"
-        android:tint="@android:color/black"
-        android:src="@drawable/ic_baseline_arrow_back_24"/>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>

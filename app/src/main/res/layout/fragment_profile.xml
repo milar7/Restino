@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
     </data>
 
 
@@ -22,10 +21,17 @@
             android:layout_height="match_parent"
 
             >
-
+            <com.example.restino.util.MultiSwipeRefreshLayout
+                android:id="@+id/swipe_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible">
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:id="@+id/cont_scroll"
+
+
                 tools:context=".ui.home.detail.DetailFragment">
 
 
@@ -46,6 +52,17 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
 
+                            <ProgressBar
+                                android:id="@+id/pb_profile"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="8dp"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
                             <ImageView
                                 android:id="@+id/iv_avatar"
                                 android:layout_width="wrap_content"
@@ -60,8 +77,10 @@
                                 android:id="@+id/tv_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
+                                android:layout_margin="4dp"
+                                android:textStyle="bold"
                                 android:textColor="@android:color/black"
+                                android:textSize="18sp"
                                 app:layout_constraintEnd_toEndOf="@+id/iv_avatar"
                                 app:layout_constraintStart_toStartOf="@+id/iv_avatar"
                                 app:layout_constraintTop_toBottomOf="@+id/iv_avatar"
@@ -72,6 +91,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
+                                android:textSize="18sp"
                                 app:layout_constraintEnd_toEndOf="@+id/tv_name"
                                 app:layout_constraintStart_toStartOf="@+id/tv_name"
                                 app:layout_constraintTop_toBottomOf="@+id/tv_name"
@@ -81,6 +101,7 @@
                                 android:id="@+id/tv_email"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
                                 android:text="ایمیل:"
                                 app:layout_constraintEnd_toEndOf="@+id/tv_number"
                                 app:layout_constraintStart_toStartOf="@+id/tv_number"
@@ -91,12 +112,13 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="4dp"
+                                android:layout_marginTop="4dp"
                                 android:text="کد ملی :"
+                                android:textSize="16sp"
                                 app:layout_constraintEnd_toEndOf="@+id/tv_email"
                                 app:layout_constraintStart_toStartOf="@+id/tv_email"
-                                app:layout_constraintTop_toBottomOf="@+id/tv_email"
 
-                                />
+                                app:layout_constraintTop_toBottomOf="@+id/tv_email" />
 
                             <com.google.android.material.button.MaterialButton
                                 android:layout_width="wrap_content"
@@ -237,6 +259,8 @@
 
 
             </androidx.core.widget.NestedScrollView>
+            </com.example.restino.util.MultiSwipeRefreshLayout>
+
         </RelativeLayout>
 
         <ImageView

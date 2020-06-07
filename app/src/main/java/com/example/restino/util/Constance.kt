@@ -7,5 +7,6 @@ object Constance {
     const val Detail = "DetailFragment"
     const val Login = "LoginFragment"
     const val SIGNUP = "SignupFragment"
+    const val PROFILE = "ProfileFragment"
 
 }

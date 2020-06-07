@@ -13,6 +13,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
@@ -26,6 +27,10 @@ import com.example.restino.util.*
 import com.poovam.pinedittextfield.PinField.OnTextCompleteListener
 import kotlinx.android.synthetic.main.layout_pin_entry.*
 import kotlinx.android.synthetic.main.layout_pin_entry.view.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.jetbrains.annotations.NotNull
 import www.sanju.motiontoast.MotionToast
 
@@ -326,10 +331,22 @@ class SignUpFragment : Fragment() {
                         }
 
                         (activity as MainActivity).UserIsLoggedIn()
-                        findNavController().navigate(
-                            SignUpFragmentDirections.actionSignUpFragmentToHomeFragment()
-
+                        MotionToast.createToast(
+                            requireActivity(), "در حال ورود ...",
+                            MotionToast.TOAST_SUCCESS,
+                            MotionToast.GRAVITY_BOTTOM,
+                            MotionToast.LONG_DURATION,
+                            ResourcesCompat.getFont(requireContext(), R.font.helvetica_regular)
                         )
+                        lifecycleScope.launch {
+                            delay(200L)
+                            withContext(Dispatchers.Main){
+                                if (findNavController().currentDestination?.id == R.id.signUpFragment)
+                                    findNavController().navigate(
+                                        SignUpFragmentDirections.actionSignUpFragmentToHomeFragment()
+                                    )
+                            }
+                        }
                     }
                 }
                 is Result.Error -> {
