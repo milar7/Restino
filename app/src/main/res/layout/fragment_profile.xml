@@ -124,6 +124,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="8dp"
+                                android:id="@+id/btn_edit_profile"
                                 android:backgroundTint="@android:color/background_light"
                                 android:text="ویرایش اطلاعات کاربری"
                                 android:textColor="@color/colorAccent"

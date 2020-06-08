@@ -80,6 +80,17 @@ class RestinoRepository(
         ,address = address,zip_code = zip_code,plaque = plaque,
     lat = lat,long = long)
 
+    suspend fun editProfile(
+        access :String,
+        avatar :String,
+        first_name :String,
+        last_name :String,
+        email :String,
+        birth_date :String,
+        national_code :String
+    )=RetrofitInctance.api.editProfile(access, avatar, first_name, last_name, email, birth_date, national_code)
+
+
 
 
 

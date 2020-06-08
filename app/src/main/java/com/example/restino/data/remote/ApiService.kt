@@ -6,6 +6,7 @@ import com.example.restino.data.remote.responceLocations.ResponceLocations
 import com.example.restino.data.remote.responceLogin.LoginResponse
 import com.example.restino.data.remote.responceRefreshToken.ResponceRefreshToken
 import com.example.restino.data.remote.responceRegister.RegisterResponce
+import com.example.restino.data.remote.responseEditProfile.ResponsesEditProfile
 import com.example.restino.data.remote.responseProfile.ProfileResponse
 import retrofit2.Response
 import retrofit2.http.*
@@ -76,6 +77,19 @@ interface ApiService {
         @Field("lat")            lat :String,
         @Field("long")          long :String
     ): Response<ResponceCreateAddress>
+
+    @FormUrlEncoded
+    @PUT("accounts/api/v1/profile/")
+    suspend fun editProfile(
+        @Header("Authorization")    access :String,
+        @Field("avatar")                    avatar :String,
+        @Field("first_name")             first_name :String,
+        @Field("last_name")             last_name :String,
+        @Field("email")                         email :String,
+        @Field("birth_date")                birth_date :String,
+        @Field("national_code")          national_code :String
+    ): Response<ResponsesEditProfile>
+
 
 //    @GET("products/api/v1/products/:id/")
 //    suspend fun getProductById(

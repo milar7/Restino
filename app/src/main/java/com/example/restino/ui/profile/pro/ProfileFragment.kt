@@ -20,6 +20,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.example.restino.R
 import com.example.restino.data.Result
+import com.example.restino.data.model.User
 import com.example.restino.data.remote.responceLocations.ResponceLocationsItem
 import com.example.restino.data.repository.RestinoRepository
 import com.example.restino.databinding.FragmentProfileBinding
@@ -27,6 +28,9 @@ import com.example.restino.ui.profile.loc.LocationsAdapter
 import com.example.restino.util.*
 import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.layout_create_address.*
+import kotlinx.android.synthetic.main.layout_create_address.pb_create_loc
+import kotlinx.android.synthetic.main.layout_edit_profile.*
+import okhttp3.internal.notify
 import www.sanju.motiontoast.MotionToast
 
 private const val TAG = "ProfileFragment"
@@ -38,6 +42,8 @@ class ProfileFragment : Fragment(), LocationsAdapter.Interaction {
     private lateinit var binding: FragmentProfileBinding
     private lateinit var access: String
     private lateinit var locaAdapter: LocationsAdapter
+    private var user =User("","","","","","","","","")
+
 
 
     override fun onCreateView(
@@ -58,6 +64,7 @@ class ProfileFragment : Fragment(), LocationsAdapter.Interaction {
         val restinoRepository = RestinoRepository()
         val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
         access = sharedPref.getString("accessToken", "").toString()
+        user.accessToken=access
         access = "Bearer $access"
         val viewProfileModelProviderFactory = InjectorUtil.ProfileViewModelProviderFactory(
             requireActivity().application,
@@ -80,8 +87,14 @@ class ProfileFragment : Fragment(), LocationsAdapter.Interaction {
         binding.btnAddAddress.setOnClickListener {
             showCreateAddressDialog()
         }
+        binding.btnEditProfile.setOnClickListener {
+            openEditProfileDialog()
+        }
+
 
     }
+
+
 
     private fun setupRvLocations() {
         binding.rvLocations.apply {
@@ -220,7 +233,62 @@ class ProfileFragment : Fragment(), LocationsAdapter.Interaction {
         })
 
     }
+    private fun openEditProfileDialog() {
+        val dialogEditProfile=MaterialDialog(requireContext())
+            .show{
+                customView(R.layout.layout_edit_profile)
+                cancelOnTouchOutside(false)
+                cancelable(false)
+            }
 
+            dialogEditProfile.et_email.setText(user.email)
+            dialogEditProfile.et_first_name.setText(user.first_name)
+            dialogEditProfile.et_last_name.setText(user.last_name)
+            dialogEditProfile.et_national_code.setText(user.national_code)
+
+        dialogEditProfile.fb_back_edit_pro.setOnClickListener {
+            dialogEditProfile.dismiss()
+        }
+        dialogEditProfile.btn_edit_profile.setOnClickListener {
+      val firstName =if(dialogEditProfile.et_first_name.text.toString().isEmpty())user.first_name else  dialogEditProfile.et_first_name.text.toString()
+      val lastName =if(dialogEditProfile.et_last_name.text.toString().isEmpty())user.last_name else  dialogEditProfile.et_last_name.text.toString()
+      val email =if(dialogEditProfile.et_email.text.toString().isEmpty())user.email else  dialogEditProfile.et_email.text.toString()
+      val nationalCode =if(dialogEditProfile.et_national_code.text.toString().isEmpty())user.national_code else  dialogEditProfile.et_national_code.text.toString()
+            user.first_name=firstName
+            user.last_name=lastName
+            user.email=email
+            user.national_code=nationalCode
+            viewModel.editProfile(access,"",firstName,lastName,email,user.birth_day,nationalCode)
+            dialogEditProfile.dismiss()
+            Toast.makeText(requireContext(), "اطلاعات ویرایش شد", Toast.LENGTH_SHORT).show()
+        }
+
+        viewModel.editProfile.observe(viewLifecycleOwner, Observer {response->
+            when(response){
+
+                is Result.Success->{
+                    dialogEditProfile.pb_edit_profile.hide()
+                    response.data?.let {
+                        viewModel.getProfile(access)
+                    }
+                }
+                is Result.Error->{
+                    dialogEditProfile.pb_edit_profile.hide()
+                    response.message?.let {
+                        if (it == "not"){
+                            getRefresh(dialogEditProfile.pb_edit_profile,"editProfile",null)
+                        }
+                    }
+                }
+                is Result.Loading->{
+                    dialogEditProfile.pb_edit_profile.show()
+
+                }
+            }
+
+        })
+
+    }
     private fun setupSwipeToRefresh() {
         binding.swipeView.setSwipeableChildren(binding.contScroll.id)
         binding.swipeView.setOnRefreshListener {
@@ -246,6 +314,11 @@ class ProfileFragment : Fragment(), LocationsAdapter.Interaction {
                         binding.tvEmail.text = " ایمیل :${it.email}"
                         binding.tvNationalCode.text =
                             "  کد ملی : ${it.national_code.NumberEnToFarsi()} "
+                        user.email=it.email
+                        user.first_name=it.first_name
+                        user.last_name=it.last_name
+                        user.national_code=it.national_code
+                        user.birth_day=it.birth_date as String
                     }
                 }
                 is Result.Error -> {
@@ -277,11 +350,7 @@ class ProfileFragment : Fragment(), LocationsAdapter.Interaction {
 
     }
 
-    private fun getRefresh(
-        pb: ProgressBar,
-        methodcall: String,
-        btnCreatedAddress: MaterialButton?
-    ) {
+    private fun getRefresh(pb: ProgressBar, methodcall: String, btnCreatedAddress: MaterialButton?) {
         val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
         val refresh = sharedPref.getString("refreshToken", "").toString()
         viewModel.getRefresh(refresh)
@@ -306,6 +375,10 @@ class ProfileFragment : Fragment(), LocationsAdapter.Interaction {
                             }
                             "locations" -> {
                                 viewModel.getLocations("Bearer ${it.access}")
+                            }
+                            "editProfile"->{
+                                viewModel.editProfile("Bearer ${it.access}","",user.first_name,user.last_name,user.email,user.birth_day,
+                                user.national_code)
                             }
                             else -> {
 

@@ -13,6 +13,7 @@ import com.example.restino.data.Result
 import com.example.restino.data.remote.responceCreateAddress.ResponceCreateAddress
 import com.example.restino.data.remote.responceLocations.ResponceLocations
 import com.example.restino.data.remote.responceRefreshToken.ResponceRefreshToken
+import com.example.restino.data.remote.responseEditProfile.ResponsesEditProfile
 import com.example.restino.data.remote.responseProfile.ProfileResponse
 import com.example.restino.data.repository.RestinoRepository
 import kotlinx.coroutines.launch
@@ -25,6 +26,7 @@ class ProfileViewModel(
     val accesS: String
 ) : AndroidViewModel(app) {
     val profile: MutableLiveData<Result<ProfileResponse>> = MutableLiveData()
+    val editProfile: MutableLiveData<Result<ResponsesEditProfile>> = MutableLiveData()
     val refreshToken: MutableLiveData<Result<ResponceRefreshToken>> = MutableLiveData()
     val createAddress: MutableLiveData<Result<ResponceCreateAddress>> = MutableLiveData()
     val locations:MutableLiveData<Result<ResponceLocations>> = MutableLiveData()
@@ -41,6 +43,43 @@ class ProfileViewModel(
     fun getLocations(access :String
     )= viewModelScope.launch{
         safeGetLocations(access)
+    }
+    fun editProfile(access :String,
+                    avatar :String,
+                    first_name :String,
+                    last_name :String,
+                    email :String,
+                    birth_date :String,
+                    national_code :String)=viewModelScope.launch {
+        safeEditProfile(access,avatar,first_name,last_name,email,birth_date,national_code)
+    }
+
+    private suspend fun safeEditProfile(
+        access: String,
+        avatar: String,
+        firstName: String,
+        lastName: String,
+        email: String,
+        birthDate: String,
+        nationalCode: String
+    ) {
+        editProfile.postValue(Result.Loading())
+        try {
+            if (hasInternetConnection()){
+                val response= restinoRepository.editProfile(access,avatar,firstName,lastName,email,birthDate,nationalCode)
+                editProfile.postValue(handleEditProfile(response))
+            }else{
+                editProfile.postValue(Result.Error("-No internet connection"))
+            }
+
+        }catch (t: Throwable) {
+            when (t) {
+                is IOException -> editProfile.postValue(Result.Error("-Network Failure"))
+                else -> editProfile.postValue(Result.Error("-Conversion Error"))
+            }
+        }
+
+
     }
 
     private suspend fun safeGetLocations(access: String) {
@@ -121,6 +160,15 @@ class ProfileViewModel(
         }
         return Result.Error("not")
     }
+    fun handleEditProfile(responce: Response<ResponsesEditProfile>):Result<ResponsesEditProfile>{
+        if (responce.isSuccessful){
+            responce.body()?.let {
+                return Result.Success(it)
+            }
+        }
+        return Result.Error("not")
+    }
+
  fun handleGetLocations(responce: Response<ResponceLocations>):Result<ResponceLocations>{
 
         if (responce.isSuccessful){
