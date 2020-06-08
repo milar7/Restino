@@ -1,7 +1,10 @@
 package com.example.restino.data.remote
 
 import com.example.restino.data.remote.responceAllProduct.Products
+import com.example.restino.data.remote.responceCreateAddress.ResponceCreateAddress
+import com.example.restino.data.remote.responceLocations.ResponceLocations
 import com.example.restino.data.remote.responceLogin.LoginResponse
+import com.example.restino.data.remote.responceRefreshToken.ResponceRefreshToken
 import com.example.restino.data.remote.responceRegister.RegisterResponce
 import com.example.restino.data.remote.responseProfile.ProfileResponse
 import retrofit2.Response
@@ -46,11 +49,33 @@ interface ApiService {
         @Field("password") password :String
     ): Response<LoginResponse>
 
+    @FormUrlEncoded
+    @POST("accounts/api/v1/refresh-token/")
+    suspend fun refreshToken(
+        @Field("refresh") refresh :String
+    ): Response<ResponceRefreshToken>
 
     @GET("accounts/api/v1/profile/")
     suspend fun getProfile(
         @Header("Authorization")access :String
     ): Response<ProfileResponse>
+
+    @GET("accounts/api/v1/my-locations/")
+    suspend fun getLocations(
+        @Header("Authorization")access :String
+    ): Response<ResponceLocations>
+
+    @FormUrlEncoded
+    @POST("accounts/api/v1/my-locations/")
+    suspend fun createLocation(
+        @Header("Authorization")access :String,
+        @Field("city")          city :Int,
+        @Field("address")   address :String,
+        @Field("zip_code") zip_code :String,
+        @Field("plaque")    plaque :String,
+        @Field("lat")            lat :String,
+        @Field("long")          long :String
+    ): Response<ResponceCreateAddress>
 
 //    @GET("products/api/v1/products/:id/")
 //    suspend fun getProductById(

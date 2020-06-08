@@ -57,6 +57,29 @@ class RestinoRepository(
     ) = RetrofitInctance.api.getProfile(
         access = access
     )
+    suspend fun getRefresh(
+        refresh: String
+    ) = RetrofitInctance.api.refreshToken(
+        refresh = refresh
+    )
+    suspend fun getLocations(
+        access: String
+    ) = RetrofitInctance.api.getLocations(
+        access = access
+    )
+
+    suspend fun ceateAddress(
+        access:String,
+        city :Int,
+        address :String,
+        zip_code :String,
+        plaque :String,
+        lat :String,
+        long :String
+    )=RetrofitInctance.api.createLocation(access=access,city = city
+        ,address = address,zip_code = zip_code,plaque = plaque,
+    lat = lat,long = long)
+
 
 
 

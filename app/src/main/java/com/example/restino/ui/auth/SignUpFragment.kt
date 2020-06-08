@@ -171,6 +171,7 @@ class SignUpFragment : Fragment() {
             register(username, password, email, firstName, lastName, nationalCode)
 
 
+            dismissKeyboard()
         }
 
     }
@@ -290,8 +291,8 @@ class SignUpFragment : Fragment() {
                     dialog.pb_active_code.hide()
                     dialog.tv_error_code.visibility = View.GONE
                     response.data?.let {
-                        loginUser(userAuth)
                         dialog.dismiss()
+                        loginUser(userAuth)
                     }
                 }
                 is Result.Error -> {
@@ -329,6 +330,7 @@ class SignUpFragment : Fragment() {
                             putString("refreshToken", it.refresh)
                             commit()
                         }
+
 
                         (activity as MainActivity).UserIsLoggedIn()
                         MotionToast.createToast(
