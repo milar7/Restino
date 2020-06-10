@@ -17,6 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.restino.R
 import com.example.restino.data.Result
+import com.example.restino.data.local.RestinoDatabase
 import com.example.restino.data.repository.RestinoRepository
 import com.example.restino.databinding.FragmentLoginBinding
 import com.example.restino.ui.MainActivity
@@ -42,7 +43,7 @@ class LoginFragment : Fragment() {
         CurrentFragment.curr = Constance.Login
         (activity as AppCompatActivity).supportActionBar?.hide()
 
-        val restinoRepository = RestinoRepository()
+        val restinoRepository = RestinoRepository(RestinoDatabase(requireContext()))
 
         val authModelProviderFactory = InjectorUtil.AuthViewModelProviderFactory(
             requireActivity().application,

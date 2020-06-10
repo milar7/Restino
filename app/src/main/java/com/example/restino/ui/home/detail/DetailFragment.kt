@@ -73,21 +73,22 @@ class DetailFragment : Fragment() {
 
         binding.btnAddToCard.setOnClickListener {
             //TODO check for signin
-            if (true) {
-                goForSignIn("برای اضافه کردن به سبد خرید باید وارد شوید",
-                object :GoForSignInCallback{
-                    override fun proceed() {
-                        findNavController().navigate(
-                            DetailFragmentDirections.actionDetailFragmentToLoginFragment()
-                        )
-                    }
-
-                    override fun cancel() {
-                        //Toast.makeText(context, "cancelled", Toast.LENGTH_SHORT).show()
-                    }
-
-                })
-            }
+            
+//            if (true) {
+//                goForSignIn("برای اضافه کردن به سبد خرید باید وارد شوید",
+//                object :GoForSignInCallback{
+//                    override fun proceed() {
+//                        findNavController().navigate(
+//                            DetailFragmentDirections.actionDetailFragmentToLoginFragment()
+//                        )
+//                    }
+//
+//                    override fun cancel() {
+//                        //Toast.makeText(context, "cancelled", Toast.LENGTH_SHORT).show()
+//                    }
+//
+//                })
+//            }
         }
 
         setUpCount()

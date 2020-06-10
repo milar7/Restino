@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.afollestad.materialdialogs.MaterialDialog
 import com.example.restino.R
+import com.example.restino.data.local.RestinoDatabase
 import com.example.restino.data.repository.RestinoRepository
 import com.example.restino.ui.auth.AuthViewModel
 import com.example.restino.ui.home.HomeFragmentDirections
@@ -33,8 +34,7 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val restinoRepository = RestinoRepository()
-
+        val restinoRepository = RestinoRepository(RestinoDatabase(this@MainActivity))
         val viewModelProviderFactory = InjectorUtil.HomeViewModelProviderFactory(application,restinoRepository)
         viewModel = ViewModelProvider(this, viewModelProviderFactory).get(HomeViewModel::class.java)
 

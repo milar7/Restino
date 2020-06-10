@@ -19,6 +19,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.example.restino.R
 import com.example.restino.data.Result
+import com.example.restino.data.local.RestinoDatabase
 import com.example.restino.data.model.UserAuth
 import com.example.restino.data.repository.RestinoRepository
 import com.example.restino.databinding.FragmentSignUpBinding
@@ -52,7 +53,7 @@ class SignUpFragment : Fragment() {
         CurrentFragment.curr = Constance.SIGNUP
         (activity as AppCompatActivity).supportActionBar?.hide()
 
-        val restinoRepository = RestinoRepository()
+        val restinoRepository = RestinoRepository(RestinoDatabase(requireContext()))
 
         val viewAuthModelProviderFactory = InjectorUtil.AuthViewModelProviderFactory(
             requireActivity().application,

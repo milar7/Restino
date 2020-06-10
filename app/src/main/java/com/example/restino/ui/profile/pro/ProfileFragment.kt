@@ -20,6 +20,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.example.restino.R
 import com.example.restino.data.Result
+import com.example.restino.data.local.RestinoDatabase
 import com.example.restino.data.model.User
 import com.example.restino.data.remote.responceLocations.ResponceLocationsItem
 import com.example.restino.data.repository.RestinoRepository
@@ -61,7 +62,7 @@ class ProfileFragment : Fragment(), LocationsAdapter.Interaction {
         CurrentFragment.curr = Constance.PROFILE
         (activity as AppCompatActivity).supportActionBar?.show()
 
-        val restinoRepository = RestinoRepository()
+        val restinoRepository = RestinoRepository(RestinoDatabase(requireContext()))
         val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
         access = sharedPref.getString("accessToken", "").toString()
         user.accessToken=access
